@@ -1,0 +1,5 @@
+--CREATE DATABASE "NewsHub_db";
+--
+--CREATE USER "NewsHub_admin" WITH ENCRYPTED PASSWORD 'root';
+--
+--GRANT ALL PRIVILEGES ON DATABASE "NewsHub_db" TO "NewsHub_admin";

@@ -1,31 +1,30 @@
 
-
 services:
   web:
     build: .
-    container_name: django_app
-    command: sh -c "python manage.py migrate && python manage.py runserver 0.0.0.0:8000"
+    command: python manage.py runserver 0.0.0.0:8000
     volumes:
-      - .:/app
+      - .:/usr/src/app
     ports:
       - "8000:8000"
-#    depends_on:
-#      - db
-#    env_file:
-#      - .env
-#
-#  db:
-#    image: postgres:13
-#    container_name: postgres_db
-#    restart: always
-#    env_file:
-#      - .env
-#    volumes:
-#      - postgres_data:/var/lib/postgresql/data
-#      - ./init.sql:/docker-entrypoint-initdb.d/init.sql
-#    ports:
-#      - "5432:5432"
+    env_file:
+      - .env
+    depends_on:
+      - db
 
-
+  db:
+    image: postgres:15
+    restart: always
+    environment:
+      POSTGRES_DB: ${DB_NAME}
+      POSTGRES_USER: ${DB_USER}
+      POSTGRES_PASSWORD: ${DB_PASSWORD}
+      POSTGRES_INITDB_ARGS: "--encoding=UTF8 --locale=C.UTF-8"
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    env_file:
+      - .env
 volumes:
   postgres_data:

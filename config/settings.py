@@ -10,6 +10,7 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/5.2/ref/settings/
 """
 import os
+from datetime import timedelta
 from pathlib import Path
 from dotenv import load_dotenv
 load_dotenv()
@@ -45,6 +46,8 @@ INSTALLED_APPS = [
     'rest_framework',
     'drf_yasg',
     'django_filters',
+    'rest_framework_simplejwt',
+    'djoser',
 ]
 
 MIDDLEWARE = [
@@ -81,18 +84,18 @@ WSGI_APPLICATION = 'config.wsgi.application'
 # https://docs.djangoproject.com/en/5.2/ref/settings/#databases
 
 DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
-    }
-    # 'default':{
-    #     'ENGINE': 'django.db.backends.postgresql_psycopg2',
-    #     'NAME': os.getenv('DB_NAME'),
-    #     'USER': os.getenv('DB_USER'),
-    #     'PASSWORD': os.getenv('DB_PASSWORD'),
-    #     'HOST': '127.0.0.1',
-    #     'PORT': '5432',
+    # 'default': {
+    #     'ENGINE': 'django.db.backends.sqlite3',
+    #     'NAME': BASE_DIR / 'db.sqlite3',
     # }
+    'default':{
+        'ENGINE': 'django.db.backends.postgresql_psycopg2',
+        'NAME': os.getenv('DB_NAME'),
+        'USER': os.getenv('DB_USER'),
+        'PASSWORD': os.getenv('DB_PASSWORD'),
+        'HOST': '127.0.0.1',
+        'PORT': '5432',
+    }
 }
 
 
@@ -138,6 +141,18 @@ STATIC_URL = 'static/'
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 REST_FRAMEWORK = {
+    'DEFAULT_AUTHENTICATION_CLASSES': [
+        # 'rest_framework.authentication.BasicAuthentication',
+        # 'rest_framework.authentication.SessionAuthentication',
+        'rest_framework_simplejwt.authentication.JWTAuthentication',
+    ],
     'DEFAULT_PAGINATION_CLASS':'rest_framework.pagination.PageNumberPagination',
     'PAGE_SIZE': 6
+}
+
+
+SIMPLE_JWT = {
+    'ALGORITHM': 'HS256',
+    'SLIDING_TOKEN_LIFETIME': timedelta(minutes=120),
+    'SLIDING_TOKEN_REFRESH_LIFETIME': timedelta(days=1),
 }

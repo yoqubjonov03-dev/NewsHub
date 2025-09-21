@@ -5,6 +5,8 @@ from rest_framework.pagination import PageNumberPagination
 from  rest_framework.response import Response
 from rest_framework import viewsets
 from rest_framework.decorators import action
+from blok_app.permissions import IsTaskPermission
+from rest_framework.permissions import IsAuthenticated
 
 from blok_app.models import Task
 from blok_app.serializers import TaskSerializer
@@ -13,11 +15,13 @@ from django_filters import rest_framework as django_filter
 from rest_framework import filters
 
 class CustomPagination(PageNumberPagination):        # yangi class yaratiladi
-    page_size = 2
+    page_size = 4
 
 class TaskViewSet(viewsets.ModelViewSet):
     queryset =Task.objects.all()
     serializer_class = TaskSerializer
+    permission_classes = [ IsTaskPermission]
+
 
     pagination_class = CustomPagination
     filter_backends = [django_filter.DjangoFilterBackend, filters.SearchFilter]

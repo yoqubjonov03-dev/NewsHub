@@ -12,7 +12,7 @@ class TaskFilter(filters.FilterSet):
 
     def filter_min_rating(self, queryset, name, value):
         # Har bir Task ga o‘rtacha reyting (avg_rating) qo‘shamiz va filter qilamiz
-        return queryset.annotate(avg_rating=Avg('reviews__score')).filter(avg_rating__gte=value)
+        return queryset.annotate(avg_rating=Avg('reviews__rating')).filter(avg_rating__gte=value)
 
     def filter_max_rating(self, queryset, name, value):
-        return queryset.annotate(avg_rating=Avg('reviews__score')).filter(avg_rating__lte=value)
+        return queryset.annotate(avg_rating=Avg('reviews__rating')).filter(avg_rating__lte=value)

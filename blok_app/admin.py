@@ -9,5 +9,5 @@ class TaskAdmin(admin.ModelAdmin):
 
 @admin.register(Comment)
 class CommentAdmin(admin.ModelAdmin):
-    list_display = ('id','title__id','score')
+    list_display = ('id','title__id','rating')
     search_fields = ('title__title', )

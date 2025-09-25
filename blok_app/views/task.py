@@ -14,7 +14,7 @@ from blok_app.filters import TaskFilter
 from django_filters import rest_framework as django_filter
 from rest_framework import filters
 
-class CustomPagination(PageNumberPagination):        # yangi class yaratiladi
+class CustomPagination(PageNumberPagination):
     page_size = 4
 
 class TaskViewSet(viewsets.ModelViewSet):
@@ -37,7 +37,7 @@ class TaskViewSet(viewsets.ModelViewSet):
 
     @action(detail=False, methods=['get'])
     def top_rated(self, request):
-        top_tasks = Task.objects.annotate(avg_rating=Avg('reviews__score')).order_by('-avg_rating')[
+        top_tasks = Task.objects.annotate(avg_rating=Avg('reviews__rating')).order_by('-avg_rating')[
                     :5]  # eng yuqori 5 ta
         serializer = self.get_serializer(top_tasks, many=True)
         return Response(serializer.data)
